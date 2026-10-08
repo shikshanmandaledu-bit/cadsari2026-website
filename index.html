@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CADSARI-2026 | Conference on Advancing Diagnostic Science</title>
+<meta name="description" content="CADSARI-2026 is a hybrid conference on advancing diagnostic science through academic development, research and innovation, focusing on Medical Laboratory Sciences, Allied Healthcare Sciences and Healthcare Innovation.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CADSARI-2026 | Conference on Advancing Diagnostic Science">
+<meta property="og:description" content="Hybrid conference on advancing diagnostic science through academic development, research and innovation. 02 November 2026, JL Auditorium, AIIMS New Delhi.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CADSARI-2026 | Conference on Advancing Diagnostic Science">
+<meta name="twitter:description" content="02 November 2026 · JL Auditorium, AIIMS New Delhi · Hybrid (Offline | Online).">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Event","name":"CADSARI-2026: Conference on Advancing Diagnostic Science Through Academic Development, Research & Innovation","startDate":"2026-11-02","endDate":"2026-11-02","eventAttendanceMode":"https://schema.org/MixedEventAttendanceMode","eventStatus":"https://schema.org/EventScheduled","location":{"@type":"Place","name":"JL Auditorium, All India Institute of Medical Sciences (AIIMS)","address":{"@type":"PostalAddress","addressLocality":"New Delhi","addressCountry":"IN"}},"description":"Hybrid conference on advancing diagnostic science through academic development, research and innovation, focusing on Medical Laboratory Sciences, Allied Healthcare Sciences and Healthcare Innovation.","organizer":{"@type":"Organization","name":"AIMLTA Delhi State Unit","email":"aimlta.delhi@gmail.com"}}
+</script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind (CDN, configured) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Styles -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+<!-- ===================== LOADING SCREEN ===================== -->
+<div id="loader">
+  <div class="loader-noise"></div>
+  <div class="loader-inner">
+    <div class="loader-pulse-wrap">
+      <span class="pulse-ring pr-1"></span>
+      <span class="pulse-ring pr-2"></span>
+      <span class="pulse-ring pr-3"></span>
+      <span class="loader-heart">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none"><path d="M12 21s-7.5-4.6-10-9.2C.4 8.1 2.4 4.5 6 4.1c2-.2 3.8.9 6 3.4 2.2-2.5 4-3.6 6-3.4 3.6.4 5.6 4 4 7.7C19.5 16.4 12 21 12 21z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </span>
+    </div>
+    <svg class="loader-ekg" viewBox="0 0 300 60" preserveAspectRatio="none">
+      <polyline id="ekg-line" points="0,30 40,30 55,30 65,8 75,52 85,30 100,30 130,30 145,30 155,12 165,48 175,30 190,30 300,30" fill="none" stroke-width="2"/>
+    </svg>
+    <p class="loader-label">CADSARI<span>-2026</span></p>
+    <p class="loader-sub" id="loader-sub">calibrating instruments</p>
+    <div class="loader-progress">
+      <div class="loader-progress-bar" id="loader-progress-bar"></div>
+      <span class="loader-progress-num" id="loader-progress-num">0%</span>
+    </div>
+  </div>
+  <div class="loader-panel loader-panel-l"></div>
+  <div class="loader-panel loader-panel-r"></div>
+</div>
+
+<!-- ===================== CURSOR FOLLOWER ===================== -->
+<div id="cursor-dot" class="cursor-dot"></div>
+<div id="cursor-ring" class="cursor-ring"></div>
+
+<!-- ===================== THREE.JS CANVAS ===================== -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ===================== HEADER ===================== -->
+<header id="site-header" class="site-header">
+  <div class="header-inner">
+    <a href="#home" class="brand" aria-label="CADSARI-2026 home">
+      <span class="brand-text brand-text-lg"><strong>CADSARI</strong><em>-2026</em></span>
+    </a>
+
+    <nav class="main-nav" id="main-nav">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#committee" class="nav-link">Committee</a>
+      <a href="#speakers" class="nav-link">Speakers</a>
+      <a href="#programme" class="nav-link">Programme</a>
+      <a href="#abstract" class="nav-link">Abstract</a>
+      <a href="#registration" class="nav-link">Registration</a>
+      <a href="#sponsors" class="nav-link">Sponsors</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="https://forms.gle/WCGsaXMvMXKHE7xM8" target="_blank" rel="noopener" class="btn btn-primary btn-sm magnetic">
+        <span>Register Now</span>
+      </a>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="header-scan"></div>
+</header>
+
+<!-- ===================== MOBILE NAV ===================== -->
+<div id="mobile-nav" class="mobile-nav">
+  <a href="#home" class="mobile-link">Home</a>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#committee" class="mobile-link">Committee</a>
+  <a href="#speakers" class="mobile-link">Speakers</a>
+  <a href="#programme" class="mobile-link">Programme</a>
+  <a href="#abstract" class="mobile-link">Abstract</a>
+  <a href="#registration" class="mobile-link">Registration</a>
+  <a href="#sponsors" class="mobile-link">Sponsors</a>
+  <a href="#gallery" class="mobile-link">Gallery</a>
+  <a href="#faq" class="mobile-link">FAQ</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
+
+<main id="home">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orbit hero-orbit-1"></div>
+    <div class="hero-orbit hero-orbit-2"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content" id="hero-content">
+      <p class="eyebrow reveal-up"><span class="eyebrow-dot"></span>AIIMS New Delhi &middot; Hybrid Conference &middot; 02 Nov 2026</p>
+
+      <h1 class="hero-title" id="hero-title" data-split-words>
+        <span class="line"><em>CADSARI-2026</em></span>
+      </h1>
+      <p class="hero-fullname reveal-up">Conference on Advancing Diagnostic Science Through Academic Development, Research &amp; Innovation</p>
+
+      <p class="hero-theme reveal-up">
+        &ldquo;Advancing Diagnostic Excellence, Academic Innovation &amp; Research for a Better Healthcare Future&rdquo;
+      </p>
+
+      <div class="hero-meta reveal-up">
+        <div class="meta-chip">
+          <span class="meta-label">Date</span>
+          <span class="meta-value">02 November 2026</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-chip">
+          <span class="meta-label">Venue</span>
+          <span class="meta-value">JL Auditorium, AIIMS New Delhi</span>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-chip">
+          <span class="meta-label">Mode</span>
+          <span class="meta-value">Hybrid — Offline | Online</span>
+        </div>
+      </div>
+
+      <div class="countdown reveal-up" id="countdown">
+        <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Days</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Hours</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Minutes</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Seconds</span></div>
+      </div>
+
+      <div class="hero-actions reveal-up">
+        <a href="https://forms.gle/WCGsaXMvMXKHE7xM8" target="_blank" rel="noopener" class="btn btn-primary btn-glow magnetic">Register Now</a>
+        <a href="#abstract" class="btn btn-outline magnetic">Submit Abstract</a>
+        <a href="#" class="btn btn-ghost magnetic" id="brochure-btn">
+          Download Brochure
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-line"><i></i></div>
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE STRIP ===================== -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>Medical Laboratory Sciences</span><span class="dot">&bull;</span>
+      <span>Microbiology</span><span class="dot">&bull;</span>
+      <span>Pathology</span><span class="dot">&bull;</span>
+      <span>Biochemistry</span><span class="dot">&bull;</span>
+      <span>Allied Healthcare Sciences</span><span class="dot">&bull;</span>
+      <span>Healthcare Innovation</span><span class="dot">&bull;</span>
+      <span>Medical Laboratory Sciences</span><span class="dot">&bull;</span>
+      <span>Microbiology</span><span class="dot">&bull;</span>
+      <span>Pathology</span><span class="dot">&bull;</span>
+      <span>Biochemistry</span><span class="dot">&bull;</span>
+      <span>Allied Healthcare Sciences</span><span class="dot">&bull;</span>
+      <span>Healthcare Innovation</span><span class="dot">&bull;</span>
+    </div>
+  </div>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">01 / About</p>
+        <h2 class="section-title reveal-up">Diagnostic Sciences. <span class="text-accent-blue">One Platform.</span></h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-copy reveal-up">
+          <p>CADSARI-2026 brings together researchers, clinicians, academicians, students, laboratory professionals and healthcare innovators to share knowledge, present research and explore advances in diagnostic science.</p>
+          <p>The conference focuses on Medical Laboratory Sciences &mdash; Microbiology, Pathology and Biochemistry &mdash; alongside Allied Healthcare Sciences and Healthcare Innovation, with a shared emphasis on research, academic development and diagnostic excellence.</p>
+          <p>Hosted at the JL Auditorium, AIIMS New Delhi on 02 November 2026, in a hybrid format so delegates can join offline or online.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card reveal-up tilt-card">
+            <span class="stat-num" data-count="3">0</span>
+            <span class="stat-label">Focus Areas</span>
+          </div>
+          <div class="stat-card reveal-up tilt-card">
+            <span class="stat-num" data-count="17">0</span>
+            <span class="stat-label">Scientific Themes</span>
+          </div>
+          <div class="stat-card reveal-up tilt-card">
+            <span class="stat-num" data-count="5">0</span>
+            <span class="stat-label">Registration Categories</span>
+          </div>
+          <div class="stat-card reveal-up tilt-card">
+            <span class="stat-num" data-count="1">0</span>
+            <span class="stat-label">Day, Hybrid</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chip-row">
+        <span class="chip">Medical Laboratory Sciences</span>
+        <span class="chip">Microbiology</span>
+        <span class="chip">Pathology</span>
+        <span class="chip">Biochemistry</span>
+        <span class="chip">Allied Healthcare Sciences</span>
+        <span class="chip">Healthcare Innovation</span>
+        <span class="chip">Research</span>
+        <span class="chip">Academic Development</span>
+        <span class="chip">Diagnostic Excellence</span>
+      </div>
+
+      <div class="about-two">
+        <div class="about-panel reveal-up">
+          <h3>Conference Objectives</h3>
+          <ul>
+            <li>Promote high-quality research and innovation in diagnostic sciences</li>
+            <li>Strengthen collaboration among academic institutions, healthcare organizations and industry</li>
+            <li>Encourage evidence-based practice and quality healthcare</li>
+            <li>Provide a platform for sharing research, insights and best practices</li>
+            <li>Support young researchers and promote academic excellence</li>
+          </ul>
+        </div>
+        <div class="about-panel reveal-up">
+          <h3>Who Should Attend</h3>
+          <ul>
+            <li>Medical Laboratory Professionals</li>
+            <li>Allied Health Professionals</li>
+            <li>Faculty Members / Academicians</li>
+            <li>Researchers / Scientists</li>
+            <li>Clinicians &amp; Healthcare Practitioners</li>
+            <li>Students (UG / PG / Research Scholars)</li>
+            <li>Industry Representatives</li>
+            <li>Policy Makers &amp; Administrators</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HIGHLIGHTS ===================== -->
+  <section class="section section-tint" id="highlights">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">02 / Highlights</p>
+        <h2 class="section-title reveal-up">What delegates take away.</h2>
+      </div>
+
+      <div class="highlight-grid">
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">🌐</div><h3>Keynote Speakers</h3><p>Keynote lectures from senior academicians in diagnostic and allied health sciences.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">🔬</div><h3>Scientific Sessions</h3><p>Sessions across Medical Laboratory Sciences, Allied Healthcare Sciences and Healthcare Innovation.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">📝</div><h3>Research Presentations</h3><p>Original research, reviews, case studies, innovations and quality projects.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">🤝</div><h3>Networking</h3><p>Meet laboratory professionals, faculty, researchers and industry representatives.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">📚</div><h3>Abstract Book</h3><p>Accepted abstracts are published in the Conference Abstract Book.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">📄</div><h3>Publication Opportunity</h3><p>Selected papers may be considered for reputed peer-reviewed journals, subject to review.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">📜</div><h3>Certificate &amp; Kit</h3><p>Registration includes the conference kit, certificate, lunch &amp; refreshments.</p></div>
+        <div class="highlight-card reveal-up tilt-card"><div class="hl-icon">💻</div><h3>Hybrid Participation</h3><p>Attend offline at AIIMS New Delhi or join online.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== IMPORTANT DATES ===================== -->
+  <section class="section" id="dates">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">03 / Timeline</p>
+        <h2 class="section-title reveal-up">Important dates.</h2>
+        <p class="section-sub reveal-up">Every milestone between now and the auditorium going live.</p>
+      </div>
+
+      <div class="v-timeline">
+        <div class="v-timeline-track"><div class="v-timeline-fill" id="v-timeline-fill"></div></div>
+
+        <div class="v-point reveal-up">
+          <div class="v-point-card">
+            <span class="v-point-tag">01</span>
+            <span class="v-point-date">01 September 2026</span>
+            <h3>Abstract Submission Opens</h3>
+            <p>Send your abstract to aimlta.delhi@gmail.com.</p>
+          </div>
+          <span class="v-node"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+
+        <div class="v-point reveal-up">
+          <div class="v-point-card">
+            <span class="v-point-tag">02</span>
+            <span class="v-point-date">10 October 2026</span>
+            <h3>Early Bird Registration Closes</h3>
+            <p>Last date for Early Bird delegate fees.</p>
+          </div>
+          <span class="v-node"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+
+        <div class="v-point reveal-up">
+          <div class="v-point-card">
+            <span class="v-point-tag">03</span>
+            <span class="v-point-date">15 October 2026</span>
+            <h3>Abstract Submission Closes</h3>
+            <p>Final date to submit an abstract for review.</p>
+          </div>
+          <span class="v-node"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+
+        <div class="v-point reveal-up">
+          <div class="v-point-card">
+            <span class="v-point-tag">04</span>
+            <span class="v-point-date">20 October 2026</span>
+            <h3>Standard Registration Closes</h3>
+            <p>Regular registration runs from 11 to 20 October 2026.</p>
+          </div>
+          <span class="v-node"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+
+        <div class="v-point reveal-up">
+          <div class="v-point-card">
+            <span class="v-point-tag">05</span>
+            <span class="v-point-date">On-Site</span>
+            <h3>Spot Registration</h3>
+            <p>Available on-site, subject to availability.</p>
+          </div>
+          <span class="v-node"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+
+        <div class="v-point v-point-final reveal-up">
+          <div class="v-point-card v-point-card-accent">
+            <span class="v-point-tag v-point-tag-accent">06</span>
+            <span class="v-point-date">02 November 2026 (Monday)</span>
+            <h3>Conference Day</h3>
+            <p>JL Auditorium, AIIMS New Delhi — Hybrid (Offline | Online).</p>
+          </div>
+          <span class="v-node v-node-accent"><span class="v-node-core"></span><span class="v-node-glow"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCIENTIFIC TRACKS ===================== -->
+  <section class="section section-tint" id="tracks">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">04 / Scientific Tracks</p>
+        <h2 class="section-title reveal-up">Medical Laboratory Sciences, Allied Healthcare &amp; Innovation.</h2>
+      </div>
+
+      <div class="tracks-grid tracks-grid-3">
+        <div class="track-card reveal-up tilt-card">
+          <span class="track-code">TRACK 01</span>
+          <h3>Medical Laboratory Sciences</h3>
+          <ul><li>Microbiology</li><li>Pathology</li><li>Biochemistry</li></ul>
+        </div>
+        <div class="track-card reveal-up tilt-card">
+          <span class="track-code">TRACK 02</span>
+          <h3>Allied Healthcare Sciences</h3>
+          <ul><li>Allied healthcare education</li><li>Clinical practice</li><li>Research</li><li>Academic development</li><li>Professional collaboration</li></ul>
+        </div>
+        <div class="track-card reveal-up tilt-card">
+          <span class="track-code">TRACK 03</span>
+          <h3>Healthcare Innovation</h3>
+          <ul><li>Diagnostic innovation</li><li>Artificial Intelligence</li><li>Digital Healthcare</li><li>Research Innovation</li><li>Emerging technologies</li></ul>
+        </div>
+      </div>
+
+      <h3 class="sub-heading reveal-up">Scientific themes</h3>
+      <div class="theme-grid"><div class="theme-item reveal-up"><span class="theme-num">01</span><span>Medical Laboratory Sciences</span></div><div class="theme-item reveal-up"><span class="theme-num">02</span><span>Clinical Biochemistry</span></div><div class="theme-item reveal-up"><span class="theme-num">03</span><span>Clinical Microbiology</span></div><div class="theme-item reveal-up"><span class="theme-num">04</span><span>Hematology &amp; Blood Banking</span></div><div class="theme-item reveal-up"><span class="theme-num">05</span><span>Pathology</span></div><div class="theme-item reveal-up"><span class="theme-num">06</span><span>Molecular Diagnostics</span></div><div class="theme-item reveal-up"><span class="theme-num">07</span><span>Histopathology &amp; Cytology</span></div><div class="theme-item reveal-up"><span class="theme-num">08</span><span>Digital Pathology &amp; Automation</span></div><div class="theme-item reveal-up"><span class="theme-num">09</span><span>Quality Management Systems</span></div><div class="theme-item reveal-up"><span class="theme-num">10</span><span>Artificial Intelligence in Diagnostics</span></div><div class="theme-item reveal-up"><span class="theme-num">11</span><span>Infection Prevention &amp; Control</span></div><div class="theme-item reveal-up"><span class="theme-num">12</span><span>Public Health Laboratory Services</span></div><div class="theme-item reveal-up"><span class="theme-num">13</span><span>Point-of-Care Testing</span></div><div class="theme-item reveal-up"><span class="theme-num">14</span><span>Precision Medicine</span></div><div class="theme-item reveal-up"><span class="theme-num">15</span><span>Allied Health Education</span></div><div class="theme-item reveal-up"><span class="theme-num">16</span><span>Research Methodology</span></div><div class="theme-item reveal-up"><span class="theme-num">17</span><span>Evidence-Based Practice</span></div></div>
+    </div>
+  </section>
+
+  <!-- ===================== COMMITTEE ===================== -->
+  <section class="section" id="committee">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">05 / Committee</p>
+        <h2 class="section-title reveal-up">Organizing &amp; scientific committee.</h2>
+      </div>
+      <div class="org-wrap">
+        <div class="org-tier reveal-up"><h3 class="org-tier-title">Patron-in-Chief</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/m-srinivas.jpg" alt="Prof. Dr. M. Srinivas" loading="lazy"></div><h4 class="org-name">Prof. Dr. M. Srinivas</h4><p class="org-role">Member NITI AAYOG</p><p class="org-role">Ex-Director, AIIMS Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Chief Patron</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/venkateswaran-k-iyer.jpg" alt="Dr. Venkateswaram K. Iyer" loading="lazy"></div><h4 class="org-name">Dr. Venkateswaram K. Iyer</h4><p class="org-role">Professor &amp; HOD, Department of Pathology</p><p class="org-role">AIIMS New Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Patrons</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/arul-selvi.jpg" alt="Dr. Arul Selvi" loading="lazy"></div><h4 class="org-name">Dr. Arul Selvi</h4><p class="org-role">Professor &amp; HOD, Department of Laboratory Medicine</p><p class="org-role">Trauma Centre, AIIMS</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/lakshmy-ramakrishnan.jpg" alt="Dr. Lakshmy Ramakrishnan" loading="lazy"></div><h4 class="org-name">Dr. Lakshmy Ramakrishnan</h4><p class="org-role">Professor &amp; HOD, Department of Cardiac Biochemistry</p><p class="org-role">AIIMS Delhi</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/sudip-kumar-datta.jpg" alt="Dr. Sudip Kumar Datta" loading="lazy"></div><h4 class="org-name">Dr. Sudip Kumar Datta</h4><p class="org-role">Professor &amp; HOD, Department of Laboratory Medicine</p><p class="org-role">AIIMS Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Organizing Chairperson</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/s-karthikeyan.jpg" alt="Mr. S. Karthikeyan" loading="lazy"></div><h4 class="org-name">Mr. S. Karthikeyan</h4><p class="org-role">Chief Technical Officer</p><p class="org-role">Department of Biochemistry</p><p class="org-role">AIIMS, New Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Organizing Co-Chairperson</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/keshav-dev.jpg" alt="Mr. Keshav Dev" loading="lazy"></div><h4 class="org-name">Mr. Keshav Dev</h4><p class="org-role">Senior Technical Officer</p><p class="org-role">AIIMS, New Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Organizing Secretaries</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/irshad-ahmed.png" alt="Mr. Irshad Ahmed" loading="lazy"></div><h4 class="org-name">Mr. Irshad Ahmed</h4><p class="org-role">AIMLTA State Secretary, Delhi MLT</p><p class="org-role">AIIMS, New Delhi</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/saksham-saxena.png" alt="Saksham Saxena" loading="lazy"></div><h4 class="org-name">Saksham Saxena</h4><p class="org-role">Assistant Secretary, Delhi State Unit</p><p class="org-role">Head of School of Allied Health Sciences</p><p class="org-role">Founder, Shikshan Mandal</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Co-Organizing Secretary</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/meenu-bala.jpg" alt="Ms. Meenu Bala" loading="lazy"></div><h4 class="org-name">Ms. Meenu Bala</h4><p class="org-role">Technical Officer</p><p class="org-role">AIIMS, New Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Convenors</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/mh-khan.png" alt="Mr. Mustafa Hussain Khan" loading="lazy"></div><h4 class="org-name">Mr. Mustafa Hussain Khan</h4><p class="org-role">AIMLTA President, Delhi State</p><p class="org-role">Retd. Senior Technical Assistant</p><p class="org-role">UCMS &amp; GTBH, New Delhi</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/exec-committee/mn-yadav.png" alt="Mr. M. N. Yadav" loading="lazy"></div><h4 class="org-name">Mr. M. N. Yadav</h4><p class="org-role">Retd. Senior Technical Assistant</p><p class="org-role">UCMS &amp; GTBH, New Delhi</p></div></div></div><div class="org-tier reveal-up"><h3 class="org-tier-title">Co-Convenors</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/exec-committee/ashok-kumar-kem.png" alt="Ashok Kumar Kem" loading="lazy"></div><h4 class="org-name">Ashok Kumar Kem</h4><p class="org-role">Vice President, AIMLTA Delhi</p><p class="org-role">Retd. Senior Technical Assistant</p><p class="org-role">UCMS &amp; GTBH, New Delhi</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/exec-committee/jagdish-lal.png" alt="Mr. Jagdish Lal" loading="lazy"></div><h4 class="org-name">Mr. Jagdish Lal</h4><p class="org-role">Treasurer, AIMLTA Delhi</p><p class="org-role">Retd. Senior Technical Assistant</p><p class="org-role">UCMS &amp; GTBH, New Delhi</p></div></div></div>
+        <div class="org-tier reveal-up"><h3 class="org-tier-title">Scientific Committee</h3><div class="org-row"><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/avinash-kumar.jpg" alt="Dr. Avinash Kumar" loading="lazy"></div><h4 class="org-name">Dr. Avinash Kumar</h4><p class="org-role">Head - Medical Laboratory Sciences (MLS)</p><p class="org-role">GD Goenka Healthcare</p></div><div class="org-card "><div class="org-avatar has-photo"><img src="assets/people/mahendra-kumar-verma.jpg" alt="Dr. Mahendra Kumar Verma" loading="lazy"></div><h4 class="org-name">Dr. Mahendra Kumar Verma</h4><p class="org-role">Principal, Allied Health Sciences</p><p class="org-role">Vivekanand Global University</p></div><div class="org-card"><div class="org-avatar has-photo"><img src="assets/people/savari-silvester-y.jpg" alt="Mr. Savari Silvester Y." loading="lazy"></div><h4 class="org-name">Mr. Savari Silvester Y.</h4></div></div></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section-head">
+        <h3 class="sub-heading reveal-up exec-heading">AIMLTA Executive Committee</h3>
+      </div>
+    </div>
+    <div class="exec-marquee">
+      <div class="exec-track" id="exec-track"><!-- populated by script.js --></div>
+    </div>
+  </section>
+
+  <!-- ===================== SPEAKERS ===================== -->
+  <section class="section section-tint" id="speakers">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">06 / Speakers</p>
+        <h2 class="section-title reveal-up">Keynote speakers.</h2>
+      </div>
+      <div class="keynote-grid"><div class="keynote-card reveal-up tilt-card"><div class="keynote-photo has-photo"><img src="assets/people/ranjay-kumar-choudhary.jpg" alt="Prof. Dr. Ranjay Kumar Choudhary" loading="lazy"></div><span class="keynote-tag">Keynote Speaker</span><h3>Prof. Dr. Ranjay Kumar Choudhary</h3><p>Associate Professor</p><p class="keynote-inst">Asharqiyah University, OMAN</p></div><div class="keynote-card reveal-up tilt-card"><div class="keynote-photo has-photo"><img src="assets/people/jaya-bharti.jpg" alt="Dr. Jaya Bharti" loading="lazy"></div><span class="keynote-tag">Keynote Speaker</span><h3>Dr. Jaya Bharti</h3><p>Vice Principal</p><p class="keynote-inst">GIMS, Noida</p></div><div class="keynote-card keynote-soon reveal-up tilt-card"><div class="keynote-photo keynote-photo-soon"><span>🎤</span></div><span class="keynote-tag">Keynote Speaker</span><h3>To Be Announced Soon</h3></div></div>
+    </div>
+  </section>
+
+  <!-- ===================== PROGRAMME ===================== -->
+  <section class="section" id="programme">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">07 / Programme</p>
+        <h2 class="section-title reveal-up">Programme outline.</h2>
+        <p class="section-sub reveal-up">02 November 2026 (Monday) &middot; JL Auditorium, AIIMS New Delhi &middot; Hybrid. Detailed timings will be updated by the organizers.</p>
+      </div>
+
+      <div class="programme-tabs">
+        <button class="prog-tab active" data-tab="morning">Inaugural &amp; Sessions</button>
+        <button class="prog-tab" data-tab="afternoon">Paper &amp; Poster</button>
+        <button class="prog-tab" data-tab="evening">Closing</button>
+      </div>
+
+      <div class="prog-panel active" data-panel="morning">
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Opening</span><span class="prog-title">Registration &amp; Delegate Check-in</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Kit collection and check-in at JL Auditorium, AIIMS New Delhi. Online delegates join through the hybrid link.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Opening</span><span class="prog-title">Inaugural Ceremony</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Formal opening of CADSARI-2026 with the Patrons and the Organizing Committee.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Keynote</span><span class="prog-title">Keynote Lecture — Prof. Dr. Ranjay Kumar Choudhary</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Associate Professor, Asharqiyah University, OMAN.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Keynote</span><span class="prog-title">Keynote Lecture — Dr. Jaya Bharti</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Vice Principal, GIMS, Noida.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Session</span><span class="prog-title">Medical Laboratory Sciences</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Microbiology, Pathology and Biochemistry — invited talks and scientific discussion.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Session</span><span class="prog-title">Allied Healthcare Sciences</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Allied healthcare education, clinical practice, research and professional collaboration.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Session</span><span class="prog-title">Healthcare Innovation</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Diagnostic innovation, Artificial Intelligence, digital healthcare and emerging technologies.</p></div></div>
+        <div class="prog-item reveal-up prog-break"><button class="prog-head"><span class="prog-time">Break</span><span class="prog-title">Lunch &amp; Refreshments</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Included with registration.</p></div></div>
+      </div>
+
+      <div class="prog-panel" data-panel="afternoon">
+        <div class="prog-block reveal-up">
+          <h4>Paper &amp; Poster Presentations</h4>
+          <div class="prog-tags">
+            <span>Original Research</span>
+            <span>Review Papers</span>
+            <span>Clinical Case Studies</span>
+            <span>Innovations</span>
+            <span>Quality Projects</span>
+            <span>Other</span>
+          </div>
+        </div>
+        <div class="prog-block reveal-up">
+          <h4>Presentation Areas</h4>
+          <div class="prog-tags">
+            <span>Medical Laboratory Sciences</span>
+            <span>Allied Healthcare Sciences</span>
+            <span>Healthcare Innovation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prog-panel" data-panel="evening">
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Closing</span><span class="prog-title">Certificate Distribution</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Conference certificates for registered delegates.</p></div></div>
+        <div class="prog-item reveal-up"><button class="prog-head"><span class="prog-time">Closing</span><span class="prog-title">Vote of Thanks</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>Closing remarks and appreciation from the Organizing Committee.</p></div></div>
+        <div class="prog-item reveal-up prog-break"><button class="prog-head"><span class="prog-time">Closing</span><span class="prog-title">Conference Concludes</span><span class="prog-plus">+</span></button><div class="prog-detail"><p>CADSARI-2026 formally concludes.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABSTRACT SUBMISSION ===================== -->
+  <section class="section section-tint" id="abstract">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">08 / Abstract</p>
+        <h2 class="section-title reveal-up">Abstract submission.</h2>
+      </div>
+
+      <p class="abstract-intro reveal-up">Abstract submission opens on 01 September 2026 and closes on 15 October 2026.</p>
+
+      <div class="abstract-guide-grid">
+        <div class="abstract-guide-card reveal-up">
+          <h3>Eligible Submissions</h3>
+          <ul>
+            <li>Original Research</li>
+            <li>Review Papers</li>
+            <li>Clinical Case Studies</li>
+            <li>Innovations</li>
+            <li>Quality Projects</li>
+            <li>Other</li>
+          </ul>
+        </div>
+        <div class="abstract-guide-card reveal-up">
+          <h3>How to Submit</h3>
+          <ul>
+            <li>Opens: 01 September 2026</li>
+            <li>Closes: 15 October 2026</li>
+            <li>Email your abstract to <a href="mailto:aimlta.delhi@gmail.com">aimlta.delhi@gmail.com</a></li>
+          </ul>
+        </div>
+        <div class="abstract-guide-card abstract-guide-wide reveal-up">
+          <h3>Publication Opportunity</h3>
+          <ul>
+            <li>Accepted abstracts will be published in the Conference Abstract Book.</li>
+            <li>Selected high-quality papers may be considered for publication in reputed peer-reviewed journals, subject to review and editorial policies.</li>
+            <li>Best papers will be considered for fast-track publication in the journal, subject to applicable conditions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="abstract-email-card reveal-up">
+        <svg width="34" height="34" viewBox="0 0 20 20" fill="none"><path d="M2 5.5l8 5.5 8-5.5M2 5.5v9a1 1 0 001 1h14a1 1 0 001-1v-9M2 5.5a1 1 0 011-1h14a1 1 0 011 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="abstract-email-label">Submit your abstract by email</span>
+        <a href="mailto:aimlta.delhi@gmail.com" class="abstract-email-link magnetic">aimlta.delhi@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REGISTRATION ===================== -->
+  <section class="section" id="registration">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">09 / Registration</p>
+        <h2 class="section-title reveal-up">Choose your registration category.</h2>
+      </div>
+
+      <div class="fee-table-wrap reveal-up">
+        <table class="fee-table">
+          <thead>
+            <tr>
+              <th>Registration Category</th>
+              <th>Early Bird<span id="fee-eb-label">Till 10 Oct 2026</span></th>
+              <th>Regular<span id="fee-reg-label">11 – 20 Oct 2026</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="Category">Student / Virtual Delegate<small>UG / PG / PhD / Research Scholars</small></td><td data-label="Early Bird">&#8377;750</td><td data-label="Regular">&#8377;1,200</td></tr>
+            <tr><td data-label="Category">Medical Laboratory Technologist / Scientist / Professionals<small>Medical Laboratory Sciences Professionals</small></td><td data-label="Early Bird">&#8377;1,500</td><td data-label="Regular">&#8377;2,000</td></tr>
+            <tr><td data-label="Category">Faculty / Academician<small>Faculty Members, Teachers &amp; Academicians</small></td><td data-label="Early Bird">&#8377;2,000</td><td data-label="Regular">&#8377;2,500</td></tr>
+            <tr><td data-label="Category">Contractual / Project / Outsource / PVT Professionals &amp; AIMLTA Members</td><td data-label="Early Bird">&#8377;1,000</td><td data-label="Regular">&#8377;1,500</td></tr>
+            <tr><td data-label="Category">International Delegate<small>Participants residing outside India</small></td><td data-label="Early Bird">&#8377;3,000</td><td data-label="Regular">&#8377;3,500</td></tr>
+          </tbody>
+        </table>
+        <p class="fee-status" id="fee-status" role="status"></p>
+        <ul class="fee-notes">
+          <li>An additional &#8377;500 will be applicable to all delegate categories after the Early Bird deadline.</li>
+          <li>Spot registration will be available on-site, subject to availability.</li>
+          <li>Registration includes scientific sessions, conference kit, certificate, lunch &amp; refreshments.</li>
+        </ul>
+        <div class="fee-table-cta">
+          <a href="https://forms.gle/WCGsaXMvMXKHE7xM8" target="_blank" rel="noopener" class="btn btn-primary magnetic">Register Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SPONSORS ===================== -->
+  <section class="section section-tint" id="sponsors">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">10 / Sponsors</p>
+        <h2 class="section-title reveal-up">Organizing partners.</h2>
+      </div>
+    </div>
+    <div class="logo-marquee">
+      <div class="logo-track" id="logo-track"><!-- populated by script.js --></div>
+    </div>
+  </section>
+
+  <!-- ===================== AIMLTACON 2024 MOMENTS ===================== -->
+  <section class="section section-tint" id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">11 / Gallery</p>
+        <h2 class="section-title reveal-up">AIMLTACON 2024 Conference Moments</h2>
+        <p class="moments-subtitle">AIIMS New Delhi</p>
+      </div>
+      <div class="moments-carousel" id="moments-carousel">
+        <div class="moments-track" id="moments-track"><!-- populated by script.js --></div>
+        <button class="moments-nav moments-prev" id="moments-prev" aria-label="Previous photo">&#8249;</button>
+        <button class="moments-nav moments-next" id="moments-next" aria-label="Next photo">&#8250;</button>
+        <div class="moments-dots" id="moments-dots"><!-- populated by script.js --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">12 / FAQ</p>
+        <h2 class="section-title reveal-up">Frequently asked questions.</h2>
+      </div>
+
+      <div class="accordion" id="accordion">
+        <div class="acc-item reveal-up"><button class="acc-head"><span>Who should attend CADSARI-2026?</span><span class="acc-icon">+</span></button><div class="acc-body"><p>Medical laboratory and allied health professionals, faculty, researchers, clinicians, students (UG / PG / research scholars), industry representatives, policy makers and administrators.</p></div></div>
+        <div class="acc-item reveal-up"><button class="acc-head"><span>Is online participation available?</span><span class="acc-icon">+</span></button><div class="acc-body"><p>Yes. CADSARI-2026 is a hybrid conference &mdash; attend offline at JL Auditorium, AIIMS New Delhi, or join online.</p></div></div>
+        <div class="acc-item reveal-up"><button class="acc-head"><span>How do I submit an abstract?</span><span class="acc-icon">+</span></button><div class="acc-body"><p>Email your abstract to aimlta.delhi@gmail.com between 01 September 2026 and 15 October 2026.</p></div></div>
+        <div class="acc-item reveal-up"><button class="acc-head"><span>What does registration include?</span><span class="acc-icon">+</span></button><div class="acc-body"><p>Scientific sessions, conference kit, certificate, lunch &amp; refreshments.</p></div></div>
+        <div class="acc-item reveal-up"><button class="acc-head"><span>Can I register on the day of the event?</span><span class="acc-icon">+</span></button><div class="acc-body"><p>Spot registration will be available on-site, subject to availability. Early Bird closes on 10 October 2026 and standard registration on 20 October 2026, so advance registration is recommended.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EXPLORE DELHI ===================== -->
+  <section class="section section-tint" id="explore-delhi">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">Explore Delhi</p>
+        <h2 class="section-title reveal-up">While you're in the capital.</h2>
+      </div>
+    </div>
+    <div class="delhi-scroller" id="delhi-scroller"><!-- populated by script.js --></div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">13 / Contact</p>
+        <h2 class="section-title reveal-up">Get in touch.</h2>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal-up">
+          <div class="contact-row">
+            <span class="contact-ico">✉️</span>
+            <div><span class="contact-label">Email</span><span class="contact-value"><a href="mailto:aimlta.delhi@gmail.com">aimlta.delhi@gmail.com</a></span></div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-ico">📞</span>
+            <div><span class="contact-label">Phone</span><span class="contact-value"><a href="tel:+917291045130">7291045130</a>, <a href="tel:+918860086062">8860086062</a></span></div>
+          </div>
+          <div class="contact-row">
+            <span class="contact-ico">📍</span>
+            <div><span class="contact-label">Venue</span><span class="contact-value">JL Auditorium, All India Institute of Medical Sciences (AIIMS), New Delhi</span></div>
+          </div>
+        </div>
+        <div class="contact-map reveal-up">
+          <iframe title="AIIMS New Delhi map" src="https://www.google.com/maps?q=AIIMS%20New%20Delhi&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <span class="brand-text"><strong>CADSARI</strong><em>-2026</em></span>
+      <p>Conference on Advancing Diagnostic Science Through Academic Development, Research &amp; Innovation</p>
+      <p class="footer-facts">02 November 2026<br>JL Auditorium, AIIMS New Delhi<br>Hybrid Conference</p>
+      <p class="footer-facts">Email: <a href="mailto:aimlta.delhi@gmail.com">aimlta.delhi@gmail.com</a></p>
+    </div>
+
+    <div class="footer-links">
+      <div>
+        <h4>Conference</h4>
+        <a href="#about">About</a>
+        <a href="#programme">Programme</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#tracks">Tracks</a>
+      </div>
+      <div>
+        <h4>Participate</h4>
+        <a href="#abstract">Submit Abstract</a>
+        <a href="#registration">Registration</a>
+        <a href="#sponsors">Sponsors</a>
+      </div>
+      <div>
+        <h4>Info</h4>
+        <a href="#committee">Committee</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>&copy; 2026 CADSARI-2026. All rights reserved.</p>
+    <p>Organized at AIIMS, New Delhi.</p>
+  </div>
+</footer>
+
+<!-- ===================== LIGHTBOX ===================== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">&times;</button>
+  <div class="lightbox-inner" id="lightbox-inner"></div>
+</div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
